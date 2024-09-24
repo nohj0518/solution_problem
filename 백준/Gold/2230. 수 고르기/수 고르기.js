@@ -1,49 +1,29 @@
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const fs = require("fs");
 
-let n, m;
-let arr = [];
+const input = fs.readFileSync("/dev/stdin")
+.toString()
+.trim()
+.split("\n");
 
-rl.on('line', (input) => {
-  if (!n) {
-    // First input: n (size of array), m (minimum difference)
-    [n, m] = input.split(' ').map(Number);
-  } else {
-    // Subsequent input: array elements
-    arr.push(Number(input));
-    if (arr.length === n) {
-      rl.close();
+const [N, M] = input.shift().split(" ").map(Number);
+const arr = input.map(Number).sort((a, b) => a - b);
+
+let minDiff = Infinity;
+arr.map((X, idx) => {
+  let st = idx + 1;
+  let ed = N;
+  let target = X + M;
+  while (st < ed) {
+    let mid = Math.floor((st + ed) / 2);
+    if (arr[mid] >= target) {
+      ed = mid;
+    } else {
+      st = mid + 1;
     }
+  }
+  if (st < N) {
+    minDiff = Math.min(minDiff, arr[st] - X);
   }
 });
 
-rl.on('close', () => {
-  // Sort the array first
-  arr.sort((a, b) => a - b);
-
-  let answer = Infinity;
-
-  for (let i = 0; i < n; i++) {
-    let target = arr[i] + m;
-    let low = i + 1, high = n;
-
-    // Binary search for the lower bound
-    while (low < high) {
-      let mid = Math.floor((low + high) / 2);
-      if (arr[mid] >= target) {
-        high = mid;
-      } else {
-        low = mid + 1;
-      }
-    }
-
-    if (low < n) {
-      answer = Math.min(answer, arr[low] - arr[i]);
-    }
-  }
-
-  console.log(answer);
-});
+console.log(minDiff);
