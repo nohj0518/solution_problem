@@ -1,17 +1,12 @@
-function solution(s){
-    const OPEN = '(';
-    const CLOSE = ')';
-    let stack = [];
-    let stack_ = [];
-    for (const a of s){
-        if(a == OPEN) stack.push(a)
-        else if(a == CLOSE && stack[stack.length-1] == OPEN) {
-            stack.pop()
+function solution(s) {
+    const stack = [];
+    for (let char of s) {
+        if (char === '(') {
+            stack.push(char);
         } else {
-            stack_.push(a)
+            if (stack.length === 0) return false;
+            stack.pop();
         }
-        
     }
-    
-    return stack.length == 0 && stack_.length == 0;
+    return stack.length === 0;
 }
