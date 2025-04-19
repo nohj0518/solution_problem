@@ -1,11 +1,10 @@
 
 function solution(lines) {
     const temp = [...lines]
-    const sorted1 = [...temp].sort(([a1, b1], [a2, b2]) => a1 - a2)
-    const sorted2 = [...temp].sort(([a1, b1], [a2, b2]) => b2 - b1)
+    const flat = [...temp].flatMap((a) => a).sort((a,b)=> a-b)
     
-    const min = sorted1[0][0];
-    const max = sorted2[0][1];
+    const min = flat[0];
+    const max = flat[flat.length-1];
     console.log(min, max)
     
     const dictionary = {}
