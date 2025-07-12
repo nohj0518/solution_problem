@@ -12,7 +12,6 @@ function solution(lottos, win_nums) {
             default: return 6;
         }
     }
-    const canSelect = new Array(45).fill().map((_,i) => i+1).filter((t) => !lottos.includes(t))
     const min = lottos.filter((t) => win_nums.includes(t)).length
     const nope = lottos.filter((l) => l == 0).length
     return [getWinner(min+nope), getWinner(min)];
